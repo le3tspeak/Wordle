@@ -8,7 +8,7 @@ namespace Wordle
 {
     internal class Rules
     {
-        public static void AnzeigeRegeln()
+        private static void AnzeigeRegeln()
         {
             // Hier können die Regeln des Spiels angezeigt werden
             Console.Clear();  // Bildschirm löschen
@@ -33,9 +33,20 @@ namespace Wordle
                 Console.ResetColor();
                 Console.WriteLine();
             }
-
             Console.WriteLine("\n4. Viel Spaß beim Raten!");
+        }
+
+        public static void AnzeigeRegelnMenu()
+        {
+            AnzeigeRegeln();
             Console.WriteLine("\nDrücke eine Taste, um zum Hauptmenü zurückzukehren...");
+            Console.ReadKey();
+        }
+
+        public static void AnzeigeRegelnSpiel()
+        {
+            AnzeigeRegeln();
+            Console.WriteLine("\nDrücke eine Taste, um das Spiel zu Starten...");
             Console.ReadKey();
         }
     }

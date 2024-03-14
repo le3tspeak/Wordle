@@ -37,7 +37,7 @@ namespace Wordle
                 else
                 {
                     Console.Clear();    // Lösche den Bildschirm.          
-                    Logo.Wordle();      // Zeige das Wordle-Spiellogo an.
+                    Logo.WordleFarbe();      // Zeige das Wordle-Spiellogo an.
                     Console.WriteLine("Ungültige Eingabe. Der Name darf nicht leer sein und darf keine Zahlen enthalten.");
                 }
             }
@@ -60,7 +60,8 @@ namespace Wordle
                     SpielerBegrüßen(spielerName);   // Spieler begrüßen und Anweisungen anzeigen 
                     ersteRunde = false;
                 }
-
+                Console.Clear();
+                Logo.WordleFarbe();
                 string geheimesWort = ZufälligesWortAuswählen(wörter);      // Zufälliges Wort auswählen
                 bool gewonnen = WortErraten(geheimesWort, spielerName);     // Wort raten und überprüfen, ob der Spieler gewonnen hat
                 ErgebnisAnzeigen(gewonnen, spielerName, geheimesWort);      // Ergebnis der Runde anzeigen
@@ -73,27 +74,10 @@ namespace Wordle
         private void SpielerBegrüßen(string spielerName)
         {
             // Begrüßungsnachricht und Legende anzeigen
-            Console.WriteLine($"Hallo {spielerName}!\n\nVersuche, das geheime Wort mit 5 Buchstaben zu erraten.\nDu hast 6 Versuche.\n");
-
             if (!regelngesehen)
-            {
-                Console.WriteLine("Legende:\n");
-                {
-                    // Zeige die Farblegenden für die Rückmeldung an.
-                    foreach (var (farbe, text) in new Dictionary<ConsoleColor, string>
-            {
-                { ConsoleColor.Green, "Korrekter Buchstabe an der richtigen Stelle" },
-                { ConsoleColor.Yellow, "Korrekter Buchstabe an der falschen Stelle" },
-                { ConsoleColor.Red, "Fehlender Buchstabe" }
-            })
-                    {
-                        Console.ForegroundColor = farbe;
-                        Console.Write($"{text}");
-                        Console.ResetColor();
-                        Console.WriteLine();
-                    }
-                }
-            }
+                Rules.AnzeigeRegelnSpiel();
+
+            Console.WriteLine($"Hallo {spielerName}!\n\nVersuche, das geheime Wort mit 5 Buchstaben zu erraten.\nDu hast 6 Versuche.\n");
         }
 
         private string ZufälligesWortAuswählen(List<string> wörter)

@@ -45,7 +45,7 @@ namespace Wordle
                     case "2":
                         regelngesehen = true;                    // Ändere boll auf True für Regelngesehen
                         wordle.SetRegelngesehen(regelngesehen);  // Setze in Wordle Regeln als gesehen
-                        Rules.AnzeigeRegeln();                   // Regeln anzeigen
+                        Rules.AnzeigeRegelnMenu();               // Regeln anzeigen
                         break;
                     case "3":
                         wordle.SpielBeenden(spielerName);        // Spiel Beenden und Dankesagung
