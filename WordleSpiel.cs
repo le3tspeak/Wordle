@@ -236,6 +236,7 @@ namespace Wordle
             Console.Clear();                                                // Löscht den Bildschirminhalt der Konsole.
             Logo.DankeFarbe(spielerName);                                   // Zeigt eine Dankesnachricht mit ASCII-Kunst an.
             Console.WriteLine($"\t\tDanke {spielerName}, fürs Spielen.");   // Gibt eine Dankesnachricht mit dem Spielername aus.
+            Console.Title = $"Danke fürs Spielen {spielerName}";            // Consolen Titel Anpassen
             Console.ReadKey();                                              // Wartet auf eine Taste, bevor das Programm beendet wird.
             Environment.Exit(0);                                            // Beendet das Programm.
         }
