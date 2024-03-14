@@ -243,6 +243,7 @@ namespace Wordle
             Console.ResetColor();
             Console.Write("ein): ");
             string antwort = Console.ReadLine().Trim().ToLower();
+            Console.Clear();
             return antwort == "ja" || antwort == "j";
         }
 
