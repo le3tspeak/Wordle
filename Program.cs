@@ -10,7 +10,7 @@ namespace Wordle
         // Der Einstiegspunkt des Programms.
         static void Main(string[] args)
         {
-            Menu menu = new Menu();                 // Instanziierung des WordleSpiel-Objekts.
+            Menu menu = new Menu();                 // Instanziierung des WordleSpielMenüs-Objekts.
             menu.StartMenu();                       // Aufruf der Startmethode des Menüs.
         }
     }
