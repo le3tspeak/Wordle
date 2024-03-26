@@ -7,25 +7,32 @@ using System.Xml.Linq;
 
 namespace Wordle
 {
+
     internal class WordleSpiel
     {
+        // Variable zur Speicherung, ob die Regeln bereits gesehen wurden.
         private bool regelngesehen;
+        // Variablen zur Speicherung der Start- und Endzeit des Spiels.
         public DateTime start;
         public DateTime end;
+        // Variable zur Speicherung der benötigten Zeit.
         public string zeit;
 
-
+        // Setter-Methode für die Variable regelngesehen.
         public void SetRegelngesehen(bool regelngesehen)
         {
             this.regelngesehen = regelngesehen;
         }
 
+        // Start-Methode für das Spiel mit dem Spielername als Parameter.
         public void Start(string spielerName)
         {
             Logo.WordleFarbe();                 // Zeigt das Wordle-Spiellogo als ASCII-Kunst in der Konsolentitelzeile an.
             Console.Clear();                    // Konsolenbildschirm leeren
             SpielStarten(spielerName);          // Startet das Spiel mit dem Spielername als Parameter
         }
+
+        // Funktion zur Eingabe des Spieler-Namens
         public string HoleSpielerName()
         {
             string name;
@@ -159,6 +166,7 @@ namespace Wordle
             Console.ReadKey();
         }
 
+        // Methode zum Anzeigen der Regeln des Spiels
         private void SpielerBegrüßen(string spielerName)
         {
             // Begrüßungsnachricht und Legende anzeigen
@@ -168,6 +176,7 @@ namespace Wordle
             Console.WriteLine($"Hallo {spielerName}!\n\nVersuche, das geheime Wort mit 5 Buchstaben zu erraten.\nDu hast 6 Versuche.\n");
         }
 
+        // Methode zum Auswählen eines zufälligen Wortes aus einer Liste
         private string ZufälligesWortAuswählen(List<string> wörter)
         {
             // Zufälliges Wort aus der Liste auswählen
@@ -175,6 +184,7 @@ namespace Wordle
             return wörter[zufall.Next(wörter.Count)];
         }
 
+        // Methode zum Raten des geheimen Wortes
         private bool WortErraten(string geheimesWort, string spielerName)
         {
             // Wort erraten
@@ -221,6 +231,7 @@ namespace Wordle
             return false;
         }
 
+        // Methode zum Überprüfen des Tipps des Spielers
         private (bool[], bool[], bool[]) TippÜberprüfen(string tipp, string geheimesWort)
         {
             // Überprüft den Tipp des Spielers und gibt entsprechendes Feedback.
@@ -247,6 +258,7 @@ namespace Wordle
             return (korrekteBuchstaben, falschePositionen, fehlendeBuchstaben); // Rückgabe des Ergebnisses.
         }
 
+        // Methode zum Eingeben des Tipps des Spielers
         private string TippEingeben()
         {
             // Tipp des Spielers einlesen
@@ -254,6 +266,7 @@ namespace Wordle
             return Console.ReadLine().Trim().ToLower();
         }
 
+        // Methode zum Anzeigen des Feedbacks zum Tipp des Spielers
         private void RückmeldungAnzeigen(string tipp, bool[] korrekteBuchstaben, bool[] falschePositionen, bool[] fehlendeBuchstaben)
         {
             // Zeigt eine visuelle Rückmeldung zum Tipp des Spielers an.
@@ -285,29 +298,27 @@ namespace Wordle
             Console.ResetColor();
         }
 
+        // Methode zum Anzeigen des Ergebnisses der Runde
         private void ErgebnisAnzeigen(bool gewonnen, string spielerName, string geheimesWort)
         {
             // Zeige das Ergebnis der Runde an.
             Console.WriteLine("\nDas geheime Wort war: " + char.ToUpper(geheimesWort[0]) + geheimesWort.Substring(1));
 
             // Aktualisiere den Konsolentitel entsprechend dem Spielergebnis.
-            if (gewonnen)
+            if (gewonnen) // Gewonnen
             {
-                // Speichern der benötigten Zeit
-                Endzeit();
-                // Speichern der benötigten Zeit
-                zeit = Zeit();
-                // Speichern des Highscores
-                HighscoreSpeichern(spielerName, zeit);
+                Endzeit();                              // Speichern der Endzeit
+                zeit = Zeit();                          // Speichern der benötigten Zeit
+                HighscoreSpeichern(spielerName, zeit);  // Speichern des Highscores in einer Datei
 
+                // Anzeigen des Gewinns und des Highscores
                 Console.Title = $"Glückwunsch {spielerName}! Gewonnen";                         // Titel für den Fall eines Gewinns.
                 Console.WriteLine($"\nGlückwunsch, {spielerName}! Du hast das Wort erraten!");  // Nachricht für einen Gewinn.
 
-                // Fragen ob er zum highscore möchte
+                // Frage, ob der Highscore angezeigt werden soll
                 Console.Write("Möchtest du den Highscore anzeigen? (");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("J");
-
                 Console.ResetColor();
                 Console.Write("/");
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -320,13 +331,14 @@ namespace Wordle
                     HighscoreAnzeigen();
                 }
             }
-            else
+            else // Niederlage
             {
                 Console.Title = $"Entschuldigung, {spielerName}! Verloren";                                 // Titel für den Fall einer Niederlage.
                 Console.WriteLine($"\nEntschuldigung, {spielerName}, dir sind die Versuche ausgegangen.");  // Nachricht für eine Niederlage.
             }
         }
 
+        // Methode zum Fragen, ob der Spieler eine weitere Runde spielen möchte
         private static bool Weitermachen()
         {
             Console.Write("Möchtest du eine weitere Runde spielen? (");
@@ -343,6 +355,7 @@ namespace Wordle
             return antwort == "ja" || antwort == "j";
         }
 
+        // Methode zum Beenden des Spiels
         public void SpielBeenden(string spielerName)
         {
             Console.Clear();                                                // Löscht den Bildschirminhalt der Konsole.

@@ -8,11 +8,14 @@ namespace Wordle
 {
     internal class Menu
     {
+        // Deklaration der Variablen
         public string spielerName;              // Variable zur Speicherung des Spieler-Namens.
         WordleSpiel wordle = new WordleSpiel(); // Instanzierung eines WordleSpiel-Objekts für das Spiel.
 
+        // Methode zum Anzeigen des Hauptmenüs und zur Steuerung des Spielablaufs.
         public void StartMenu()
         {
+            // Deklaration der Variablen
             bool ersterstart = true;            // Variable zur Verfolgung des ersten Spielstarts.
             bool regelngesehen = false;         // Variable zur Verfolgung, ob die Regeln bereits gesehen wurden.
 
@@ -25,6 +28,7 @@ namespace Wordle
                 ersterstart = false;                      // Die Variable ersterstart wird auf false gesetzt, da das Spiel jetzt nicht mehr zum ersten Mal gestartet wird.
             }
 
+            // Menüschleife, um das Hauptmenü anzuzeigen und die Benutzereingabe zu verarbeiten.
             do
             {
                 // Menupunkt für das Hauptmenü für den Highscore
@@ -47,6 +51,7 @@ namespace Wordle
                 // Benutzereingabe lesen und verarbeiten
                 string eingabe = Console.ReadLine();        // Einlesen der Benutzereingabe.
 
+                // Verzweigung, um die Benutzereingabe zu verarbeiten.
                 switch (eingabe)
                 {
                     case "1":
@@ -61,8 +66,8 @@ namespace Wordle
                     case "3":
                         wordle.SpielBeenden(spielerName);        // Beenden des Spiels und Dankesagung an den Spieler.
                         break;
-                        case "4":
-                            wordle.HighscoreAnzeigen();               // Anzeigen des Highscores.
+                    case "4":
+                        wordle.HighscoreAnzeigen();               // Anzeigen des Highscores.
                         break;
                     default:
                         break;

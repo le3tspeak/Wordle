@@ -36,8 +36,7 @@ namespace Wordle
                 Console.ResetColor();
                 Console.WriteLine();
             }
-
-            // Weitere Regel anzeigen
+            
             Console.WriteLine("\n4. Viel Spaß beim Raten!");
         }
 
