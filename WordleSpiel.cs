@@ -10,6 +10,10 @@ namespace Wordle
     internal class WordleSpiel
     {
         private bool regelngesehen;
+        public DateTime start;
+        public DateTime end;
+        public string zeit;
+
 
         public void SetRegelngesehen(bool regelngesehen)
         {
@@ -44,6 +48,22 @@ namespace Wordle
             return name; // Gib den gültigen Namen zurück.
         }
 
+        // Funktionen für die Zeitmessung
+        public void Startzeit()
+        {
+            start = DateTime.Now;
+        }
+        public void Endzeit()
+        {
+            end = DateTime.Now;
+        }
+        public string Zeit()
+        {
+            TimeSpan zeitdauer = end - start;
+            return $"{zeitdauer.Minutes}:{zeitdauer.Seconds}";
+        }
+
+        // Spielstart Methode für das Spiel mit dem Spielername als Parameter
         public void SpielStarten(string spielerName)
         {
             // Liste von geheimen Wörtern
@@ -51,6 +71,8 @@ namespace Wordle
 
             bool ersteRunde = true;
             bool weitermachen = true;
+            // Startzeit speichern
+            Startzeit();
 
             // Spielrunden durchführen
             do
@@ -69,6 +91,72 @@ namespace Wordle
             } while (weitermachen);
 
             SpielBeenden(spielerName);
+        }
+
+        //Methode für den Highscore speicherin in Datei
+        public void HighscoreSpeichern(string spielerName, string zeit)
+        {
+            // Pfad zur Highscore-Datei
+            string datei = "highscore.txt";
+
+            // Überprüfen, ob die Datei existiert
+            if (!System.IO.File.Exists(datei))
+            {
+                // Wenn die Datei nicht existiert, wird sie erstellt und der Highscore-Eintrag hinzugefügt
+                System.IO.File.WriteAllText(datei, $"{spielerName}\t{zeit}");
+            }
+            else
+            {
+                // Wenn die Datei existiert, wird der Highscore-Eintrag hinzugefügt
+                System.IO.File.AppendAllText(datei, $"\n{spielerName}\t{zeit}");
+            }
+        }
+
+        // Methode zum Lesen des Highscores aus der Datei
+        public string HighscoreLesen()
+        {
+            // Pfad zur Highscore-Datei
+            string datei = "highscore.txt";
+
+            // Überprüfen, ob die Datei existiert
+            if (!System.IO.File.Exists(datei))
+            {
+                // Wenn die Datei nicht existiert, wird sie erstellt und mit zufälligen Einträgen gefüllt
+                Random zufall = new Random();
+                string[] namen = { "Udo", "Kalle", "Franko", "Alex" };
+                string highscore = "";
+                for (int i = 0; i < namen.Length; i++)
+                {
+                    highscore += $"{namen[i]}\t{zufall.Next(2, 6)}:{zufall.Next(0, 60)}\n";
+                }
+                return highscore;
+            }
+            else
+            {
+                // Wenn die Datei existiert, wird der Inhalt gelesen und zurückgegeben
+                return System.IO.File.ReadAllText(datei);
+            }
+        }
+
+        // Highscore in der Konsole ausgegeben in einer tabellarischen Form
+        public void HighscoreAnzeigen()
+        {
+            // Highscore aus der Datei lesen
+            string highscore = HighscoreLesen();
+
+            // Logo anzeigen
+            Console.Clear();
+            Logo.WordleFarbe();
+
+            // Highscore in der Konsole anzeigen
+            Console.WriteLine("Highscore\n");
+            Console.WriteLine("Name\tZeit");
+            Console.WriteLine("----\t----");
+            Console.WriteLine(highscore);
+
+            // Warten auf Benutzereingabe
+            Console.WriteLine("\nDrücke eine beliebige Taste, um zum Hauptmenü zurückzukehren.");
+            Console.ReadKey();
         }
 
         private void SpielerBegrüßen(string spielerName)
@@ -205,8 +293,32 @@ namespace Wordle
             // Aktualisiere den Konsolentitel entsprechend dem Spielergebnis.
             if (gewonnen)
             {
+                // Speichern der benötigten Zeit
+                Endzeit();
+                // Speichern der benötigten Zeit
+                zeit = Zeit();
+                // Speichern des Highscores
+                HighscoreSpeichern(spielerName, zeit);
+
                 Console.Title = $"Glückwunsch {spielerName}! Gewonnen";                         // Titel für den Fall eines Gewinns.
                 Console.WriteLine($"\nGlückwunsch, {spielerName}! Du hast das Wort erraten!");  // Nachricht für einen Gewinn.
+
+                // Fragen ob er zum highscore möchte
+                Console.Write("Möchtest du den Highscore anzeigen? (");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("J");
+
+                Console.ResetColor();
+                Console.Write("/");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("N");
+                Console.ResetColor();
+                Console.Write("ein): ");
+                string antwort = Console.ReadLine().Trim().ToLower();
+                if (antwort == "ja" || antwort == "j")
+                {
+                    HighscoreAnzeigen();
+                }
             }
             else
             {

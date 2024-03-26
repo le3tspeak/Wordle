@@ -27,6 +27,10 @@ namespace Wordle
 
             do
             {
+                // Menupunkt für das Hauptmenü für den Highscore
+                Console.Clear();                            // Konsolenbildschirm leeren.
+                Logo.WordleFarbe();                         // Anzeige des Wordle-Spiellogos.
+
                 // Menü anzeigen
                 Console.Clear();                            // Konsolenbildschirm leeren.
                 Logo.WordleFarbe();                         // Anzeige des Wordle-Spiellogos.
@@ -35,6 +39,9 @@ namespace Wordle
                 Console.WriteLine("1. Neues Spiel");        // Option für ein neues Spiel.
                 Console.WriteLine("2. Regeln anzeigen");    // Option, um die Regeln anzuzeigen.
                 Console.WriteLine("3. Spiel beenden\n");    // Option, um das Spiel zu beenden.
+                Console.WriteLine("4. Highscore anzeigen\n"); // Option, um den Highscore anzuzeigen.
+
+
                 Console.Write("Wähle eine Option: ");       // Aufforderung zur Benutzereingabe.
 
                 // Benutzereingabe lesen und verarbeiten
@@ -53,6 +60,9 @@ namespace Wordle
                         break;
                     case "3":
                         wordle.SpielBeenden(spielerName);        // Beenden des Spiels und Dankesagung an den Spieler.
+                        break;
+                        case "4":
+                            wordle.HighscoreAnzeigen();               // Anzeigen des Highscores.
                         break;
                     default:
                         break;
