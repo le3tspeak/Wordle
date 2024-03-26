@@ -145,7 +145,7 @@ namespace Wordle
             }
         }
 
-        // Highscore in der Konsole ausgegeben in einer tabellarischen Form
+        // Highscore in der Konsole ausgegeben in einer tabellarischen Form und sortiert nach der niedrigsten Zeit
         public void HighscoreAnzeigen()
         {
             // Highscore aus der Datei lesen
@@ -159,7 +159,24 @@ namespace Wordle
             Console.WriteLine("Highscore\n");
             Console.WriteLine("Name\tZeit");
             Console.WriteLine("----\t----");
-            Console.WriteLine(highscore);
+
+            // Highscore in eine Liste von Tupeln konvertieren
+            List<(string, string)> highscoreListe = new List<(string, string)>();
+            string[] highscoreEinträge = highscore.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            foreach (string eintrag in highscoreEinträge)
+            {
+                string[] daten = eintrag.Split('\t');
+                highscoreListe.Add((daten[0], daten[1]));
+            }
+
+            // Highscore nach der Zeit sortieren
+            highscoreListe = highscoreListe.OrderBy(x => TimeSpan.Parse(x.Item2)).ToList();
+
+            // Highscore in der Konsole ausgeben
+            foreach ((string name, string zeit) in highscoreListe)
+            {
+                Console.WriteLine($"{name}\t{zeit}");
+            }
 
             // Warten auf Benutzereingabe
             Console.WriteLine("\nDrücke eine beliebige Taste, um zum Hauptmenü zurückzukehren.");
